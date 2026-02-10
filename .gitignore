@@ -2,6 +2,7 @@
 *~
 vgcore.*
 /.vscode
+/.venv
 /.idea
 /.cache
 *.swp

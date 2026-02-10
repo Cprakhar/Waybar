@@ -1,14 +1,25 @@
-.PHONY: build build-debug run clean default install
+.PHONY: build build-debug run clean default install venv deps
+
+VENV ?= .venv
+PYTHON ?= $(VENV)/bin/python
+PIP ?= $(VENV)/bin/pip
 
 default: build
 
-build:
+build: deps
 	meson setup build
 	ninja -C build
 
-build-debug:
+build-debug: deps
 	meson setup build --buildtype=debug
 	ninja -C build
+
+venv:
+	python3 -m venv $(VENV)
+
+deps: venv
+	$(PIP) install -r requirements-dev.txt
+	source $(VENV)/bin/activate && pre-commit install
 
 install: build
 	ninja -C build install
